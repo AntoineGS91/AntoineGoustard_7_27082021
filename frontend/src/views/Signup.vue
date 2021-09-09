@@ -1,0 +1,99 @@
+<template>
+    <div>
+        <v-app-bar class="blue">
+        <img class="rounded-circle ml-5 mr-10" width="50" alt="Logo Groupomania" src="../assets/icon.svg">
+        <p id="titlenavbar" class="my-auto">Groupomania</p>
+        <v-tabs class="d-flex justify-end mr-15">
+            <router-link class="my-auto Navtext" to="/login">
+                <v-tab>Connexion</v-tab>
+            </router-link>
+            <router-link class="my-a uto Navtext" to="/signup">
+                <v-tab>Inscription</v-tab>
+            </router-link>
+        </v-tabs>
+        </v-app-bar>
+        <div>
+            <div class="mt-15 text-center mb-10">
+                <h2 class="mb-5">Inscription</h2>
+                <p>Merci de proceder à l'inscription afin d'accéder au mur de publications</p>
+            </div>
+            <div class="mb-15 text-center">
+                <p>Vous êtes déjà inscrit ?</p>
+                <router-link class="my-auto Navtext" to="/login">Connexion</router-link>
+        </div>
+        <v-app id="inspire">
+        <div>
+            <v-container id="container" class="rounded-lg">
+                <v-text-field
+                    class="mb-10"
+                    label="Email"
+                    id="email"
+                    placeholder="example@example.fr"
+                    hide-details="auto"
+                    required>
+                </v-text-field>
+                <v-text-field
+                    class="mb-10"
+                    label="Pseudo"
+                    placeholder="El Chapo"
+                    id="username"
+                    hide-details="auto"
+                    required>
+                </v-text-field>
+                <v-text-field
+                    class="mb-10"
+                    label="Mot de passe"
+                    placeholder="********"
+                    id="password"
+                    type="password"
+                    hide-details="auto"
+                    required>
+                </v-text-field>
+                <v-btn
+                class="text-center"
+                depressed
+                color="lime"
+                @click="signup()">
+                S'inscrire</v-btn>
+            </v-container>
+        </div>
+        </v-app>
+    </div>
+    </div>
+</template>
+
+<script>
+import axios from "axios"
+
+export default {
+    name: 'Signup',
+}
+
+</script>
+
+<style>
+    #titlenavbar{
+        color: white;
+        font-size: 1.5em;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    .Navtext{
+        text-decoration: none;
+        color: white;
+    }
+    #inspire{
+        height: 350px;
+    }
+    #container{
+        text-align: center;
+        width: 40%;
+        height: 105%;
+        border: blue solid 3px;
+    }
+    @media all and (min-width: 375px) and (max-width: 780px) {
+        v-tabs{
+            height: 200px;
+        }
+    }
+</style>
