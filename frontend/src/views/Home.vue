@@ -1,7 +1,7 @@
 <template>
   <div class="">
         <img id="HomeLogo" class="text-center" src="../assets/icon-left-font-monochrome-black.png">
-        <div class="text-center mb-10">Merci de choisir une destinations</div>
+        <div class="text-center mb-10">Merci de choisir une destination</div>
         <div class="text-center">
             <router-link class="my-auto Navtext mr-10" to="/login">Connexion</router-link>
             <router-link class="my-auto Navtext ml-10" to="/signup">Inscription</router-link>

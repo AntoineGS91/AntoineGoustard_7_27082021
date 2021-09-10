@@ -67,11 +67,11 @@ export default {
       axios
         .post("http://localhost:3000/api/auth/login",
             {email : userEmail, password: userPassword},
-            {header: {"Content-Type": "application/json"}}
+            {headers: {"Content-Type": "application/json"}}
         )
         .then((res) => {
-            localStorage.setItem("Token", res.data.token)
-            this.$router.push("/feed")})
+            localStorage.setItem("user", JSON.stringify(res.data))
+            this.$router.push("/Profil")})
         .catch((error) => {
             console.log(error)
             alert("Utilisateur non trouvé, veuillez vérifier vos identifiants") 
@@ -80,13 +80,3 @@ export default {
   }
 }
 </script>
-
-<style>
-    @media all and (min-width: 375px) and (max-width: 780px) {
-        #container{
-            height: 500px;
-            margin-left: 12.5%;
-            width: 75%;
-        }
-    }
-</style>

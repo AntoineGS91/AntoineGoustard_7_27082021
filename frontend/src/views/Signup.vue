@@ -7,7 +7,7 @@
             <router-link class="my-auto Navtext" to="/login">
                 <v-tab>Connexion</v-tab>
             </router-link>
-            <router-link class="my-a uto Navtext" to="/signup">
+            <router-link class="my-auto Navtext" to="/signup">
                 <v-tab>Inscription</v-tab>
             </router-link>
         </v-tabs>
@@ -15,7 +15,7 @@
         <div>
             <div class="mt-15 text-center mb-10">
                 <h2 class="mb-5">Inscription</h2>
-                <p>Merci de proceder à l'inscription afin d'accéder au mur de publications</p>
+                <p>Merci de procéder à l'inscription afin d'accéder au mur de publications</p>
             </div>
             <div class="mb-15 text-center">
                 <p>Vous êtes déjà inscrit ?</p>
@@ -23,7 +23,7 @@
         </div>
         <v-app id="inspire">
         <div>
-            <v-form method="POST" @submit.prevent ="signup" id="container" class="rounded-lg">
+            <v-form method="POST" @submit.prevent ="signup" id="container" class="mx-auto pl-3 pr-3 rounded-lg">
                 <v-text-field
                     class="mb-10 mt-5"
                     label="Email"
@@ -51,7 +51,7 @@
                 </v-text-field>
                 <v-btn
                 type="submit"
-                class="text-center"
+                class="text-center mb-3"
                 depressed
                 color="lime">
                 S'inscrire</v-btn>
@@ -82,7 +82,7 @@ export default {
       axios
         .post("http://localhost:3000/api/auth/signup",
             {email : userEmail, username: userUsername, password: userPassword},
-            {header: {"Content-Type": "application/json"}}
+            {headers: {"Content-Type": "application/json"}}
         )
         .then((res) => {
             console.log("Inscription réussi !");
