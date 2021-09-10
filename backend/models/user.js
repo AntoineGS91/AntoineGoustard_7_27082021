@@ -5,7 +5,6 @@ const User = function (user) {
     this.username = user.username;
     this.email = user.email;
     this.password = user.password;
-    this.imageUrl = user.imageUrl;
     this.isAdmin = user.isAdmin;
 }
 

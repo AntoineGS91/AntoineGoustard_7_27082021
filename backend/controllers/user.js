@@ -12,7 +12,7 @@ exports.signup = (req, res, next) => {
           isAdmin: 0,
           password: hash
         });
-        db.query('INSERT INTO user SET ?', user, (err, result, field) => {
+        db.query('INSERT INTO user SET ?', user, (error, result, field) => {
             if (error) {
                 console.error(error);
                 return res.status(400).json({ error })

@@ -1,16 +1,16 @@
 <template>
     <div>
         <v-app-bar class="blue">
-            <img class="rounded-circle ml-5 mr-10" width="50" alt="Logo Groupomania" src="../assets/icon.svg">
-            <p id="titlenavbar" class="my-auto">Groupomania</p>
-            <v-tabs class="d-flex justify-end mr-15">
-                <router-link class="my-auto Navtext" to="/login">
-                    <v-tab>Connexion</v-tab>
-                </router-link>
-                <router-link class="my-auto Navtext" to="/signup">
-                    <v-tab>Inscription</v-tab>
-                </router-link>
-            </v-tabs>
+        <img class="rounded-circle ml-5 mr-10" width="50" alt="Logo Groupomania" src="../assets/icon.svg">
+        <p id="titlenavbar" class="my-auto">Groupomania</p>
+        <v-tabs class="d-flex justify-end mr-15">
+            <router-link class="my-auto Navtext" to="/login">
+                <v-tab>Connexion</v-tab>
+            </router-link>
+            <router-link class="my-auto Navtext" to="/signup">
+                <v-tab>Inscription</v-tab>
+            </router-link>
+        </v-tabs>
         </v-app-bar>
         <div>
             <div class="mt-15 text-center mb-10">
@@ -21,7 +21,7 @@
                 <p>Vous n'êtes pas encore inscrit ?</p>
                 <router-link class="my-auto Navtext" to="/signup">Inscription</router-link>
             </div>
-            <v-container  id="container" class="rounded-lg">
+            <v-form method="POST" @submit.prevent ="login" id="container" class="mx-auto pl-3 pr-3 rounded-lg">
             <v-text-field
                 class="mb-auto"
                 label="Email"
@@ -39,13 +39,12 @@
             </v-text-field>
             <v-btn 
                 type="submit"
-                class="text-center"
+                class="text-center mb-3"
                 depressed
-                color="lime"
-                @click="login">
+                color="lime">
                 Se connecter
             </v-btn>
-        </v-container>
+            </v-form>
         </div>
     </div>
 </template>
@@ -63,29 +62,30 @@ export default {
   },
   methods: {
     login() {
-      const data = JSON.stringify({email : this.email, password : this.password});
+    const userEmail = document.querySelector("#email").value
+    const userPassword = document.querySelector("#password").value
       axios
-          .post(this.$localhost + "api/auth/login", data, {
-            header: {"Content-Type": "application/json",},
-          })
-          .then((res) => {
+        .post("http://localhost:3000/api/auth/login",
+            {email : userEmail, password: userPassword},
+            {header: {"Content-Type": "application/json"}}
+        )
+        .then((res) => {
             localStorage.setItem("Token", res.data.token)
             this.$router.push("/feed")})
-          .catch((error) => {
-            console.log(error);
+        .catch((error) => {
+            console.log(error)
             alert("Utilisateur non trouvé, veuillez vérifier vos identifiants") 
-        });
+        })
     }
   }
 }
 </script>
 
 <style>
-    #inspire{
-        margin-top: 0;
-    }
     @media all and (min-width: 375px) and (max-width: 780px) {
         #container{
+            height: 500px;
+            margin-left: 12.5%;
             width: 75%;
         }
     }

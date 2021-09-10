@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-app-bar class="blue">
+        <v-app-bar id="Navbar" class="blue">
         <img class="rounded-circle ml-5 mr-10" width="50" alt="Logo Groupomania" src="../assets/icon.svg">
         <p id="titlenavbar" class="my-auto">Groupomania</p>
         <v-tabs class="d-flex justify-end mr-15">
@@ -23,9 +23,9 @@
         </div>
         <v-app id="inspire">
         <div>
-            <v-container id="container" class="rounded-lg">
+            <v-form method="POST" @submit.prevent ="signup" id="container" class="rounded-lg">
                 <v-text-field
-                    class="mb-10"
+                    class="mb-10 mt-5"
                     label="Email"
                     id="email"
                     placeholder="example@example.fr"
@@ -50,12 +50,12 @@
                     required>
                 </v-text-field>
                 <v-btn
+                type="submit"
                 class="text-center"
                 depressed
-                color="lime"
-                @click="signup()">
+                color="lime">
                 S'inscrire</v-btn>
-            </v-container>
+            </v-form>
         </div>
         </v-app>
     </div>
@@ -67,9 +67,36 @@ import axios from "axios"
 
 export default {
     name: 'Signup',
+    data() {
+    return {
+        email: '',
+        password: '',
+        username: '',
+    }
+  },
+  methods: {
+    signup() {
+    const userEmail = document.querySelector("#email").value
+    const userPassword = document.querySelector("#password").value
+    const userUsername = document.querySelector("#username").value
+      axios
+        .post("http://localhost:3000/api/auth/signup",
+            {email : userEmail, username: userUsername, password: userPassword},
+            {header: {"Content-Type": "application/json"}}
+        )
+        .then((res) => {
+            console.log("Inscription réussi !");
+            localStorage.setItem("User", res)
+            this.$router.push("/login")})
+        .catch((error) => {
+            console.log(error)
+            alert("Echec de l'inscription") 
+        })
+    }
+  }
 }
 
-</script>
+</script>   
 
 <style>
     #titlenavbar{
@@ -87,13 +114,13 @@ export default {
     }
     #container{
         text-align: center;
-        width: 40%;
-        height: 105%;
+        width: 85%;
+        height: 100%;
         border: blue solid 3px;
     }
-    @media all and (min-width: 375px) and (max-width: 780px) {
-        v-tabs{
-            height: 200px;
+    @media all and (min-width: 780px) {
+        #container{
+            width: 50%;
         }
     }
 </style>
