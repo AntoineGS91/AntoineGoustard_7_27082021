@@ -59,13 +59,13 @@ export default {
         const user = JSON.parse(localStorage.getItem('user')) 
         const postTitle = document.querySelector("#post_title").value
         const postContent = document.querySelector("#post_content").value
-        const post = JSON.stringify({content: postContent, title : postTitle, userId: user.id})
+        const post = JSON.stringify({'content': postContent, 'title' : postTitle, 'userId': user.id})
         axios
             .post("http://localhost:3000/api/post", post,
                 {headers: {"Content-Type": "application/json"},
                 Authorization: "Bearer" + user.token})
             .then(() => {
-                this.$router.push({ name: 'feed' })})
+                this.$router.push( '/feed' )})
             .catch((error) => {
                 console.log(error)
             })

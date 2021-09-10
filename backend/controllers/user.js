@@ -49,20 +49,9 @@ exports.login = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
     let userId = req.params.id;
-    conn.query(`DELETE FROM users WHERE id = ?`, userId, (error, result) => {
+    db.query(`DELETE FROM users WHERE id = `+ userId, userId, (error, result) => {
         if (error) return res.status(400).json({ error: "Vous ne pouvez pas supprimer cet utilisateur" });
         else{ res.status(200).json({ message: "L'utilisateur a bien été supprimé" })}
-    });
-}
-
-exports.getAllUser = (req, res, next) => {
-    db.query('SELECT id, username, email FROM users ', (error, result) => {
-    if (error) {
-        return res
-            .status(400)
-            .json({ error: "Impossible d'afficher les listes des membres" });
-    }
-    return res.status(200).json(result);
     })
 }
 
@@ -86,7 +75,7 @@ exports.modifyUser = (req, res, next) => {
             .then((hash) => {
                 password = hash;
                 db.query(
-                    `UPDATE users SET email='${email}', password='${password}', isAdmin=${0}  WHERE id=?`, id, (error, results, fields) => {
+                    `UPDATE users SET email='${email}', password='${password}', WHERE id=` + id, id, (error, results, fields) => {
                         if (error) {
                             return res.status(400).json(error);
                         }

@@ -1,10 +1,9 @@
 <template>
     <div>
         <NavCo />
-        <h1 class="mt-15 mb-15 text-center">Bonjour à vous, {{ username }}</h1>
-        <div v-for="(post, pt) in posts"
-            :key="pt"
-            v-bind:post="post">
+        <h1 class="mt-15 mb-15 text-center">Bonjour à vous,</h1>
+        <div v-for="(post, id) in posts" 
+            v-bind:key="id">
             <div class="Post rounded-lg mb-15">
                 <h3 class="mb-5 text-center"></h3>
                 <div class="post__content d-flex flex-column-reverse">
@@ -13,7 +12,7 @@
                 </div>
             </div>
         </div>
-        
+        <div></div>
     </div>
 </template>
 
@@ -29,32 +28,31 @@ export default {
     data: function() {
         return {
             posts: [],
-            id: "", 
-            token: "", 
-            username:"",
         }
     },
     mounted() {
-        const user = JSON.parse(localStorage.getItem('user'))
+    const user = JSON.parse(localStorage.getItem('user'))
         if (user) {
             this.id = user.id
             this.username = user.username
             this.token = user.token
-        } else this.$router.push({ name: 'login' })
+            this.showFeed()
+        } else this.$router.push( '/login' )
     },
     methods: {
         showFeed() {
-            const user = JSON.parse(localStorage.getItem('user')) 
+            const user = JSON.parse(localStorage.getItem('user'))
             axios
-                .get("http://localhost:3000/api/post", {
-                    Authorization: "Bearer" + user.token})
-                .then(res => res.json())
-                .then(result => {this.posts = result})
+                .get("http://localhost:3000/api/post/",
+                    {headers: {"Content-Type": "application/json"},
+                    Authorization: "Bearer " + user.token})
+                .then (response => response.json())
+                .then(data=>this.posts = data)
                 .catch((error) => {
                     console.log(error)
-                    alert("Utilisateur non trouvé, veuillez vérifier vos identifiants") 
+                    alert("Impossible d'afficher les posts !")
                 })
-        }
+        },    
     }
 }
 </script>

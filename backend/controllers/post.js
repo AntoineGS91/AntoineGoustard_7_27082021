@@ -2,14 +2,29 @@ const Post = require('../models/post');
 const db = require('../db.js');
 
 exports.getAllPosts = (req, res, next) => {
-  db.query('SELECT post.id, title, content, userId, dateCreate, isAdmin, FROM posts INNER JOIN user ON user.id = post.userId ORDER BY dateCreate DESC', (error, result) => {
+  db.query('SELECT post.id, title, content, userId, dateCreate, isAdmin, FROM posts INNER JOIN users ON users.id = posts.userId ORDER BY dateCreate DESC', (error, result) => {
       if (error) {return res.status(400).json({ error: "Affichage des posts impossible" });}
-      return res.status(200).json(result);
-  });
+      else { 
+          if(result.length > 0) {
+            const Posts = [];
+            for (let i = 0; i < result.length; i++) {
+            Posts.push({
+              userId: result[i].userId,
+              title: result[i].title,
+              content: result[i].content,
+              id: result[i].id,
+              dateCreate: result[i].dateCreate
+            })
+            }
+            res.status(200).json(Posts);
+          }
+          else {res.status(200).json([]);}
+      }
+  })
 }
-
+  
 exports.getOnePost = (req, res, next) => {
-  conn.query('SELECT post.id, title, content, userId, dateCreate, isAdmin, FROM posts INNER JOIN user ON user.id = post.userId WHERE post.id=? ', req.params.id, (error, result) => {
+  db.query('SELECT post.id, title, content, userId, dateCreate, isAdmin, FROM posts INNER JOIN user ON user.id = post.userId WHERE post.id=? ', req.params.id, (error, result) => {
       if (error) {return res.status(400).json({ error: "Affichage du post impossible" });}
       return res.status(200).json(result);
   });
@@ -36,8 +51,8 @@ exports.addPost = (req, res, next) => {
       userId: req.body.userId,
       title: title,
       content: content
-  });
-  if (!title && !content) {
+  })
+  if (!title || !content) {
       return res.status(400).json({ message: "Une information du post n'est pas renseignée" });
   } else {
       db.query(`INSERT INTO posts SET ?`, post, (error, result) => {

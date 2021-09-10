@@ -13,12 +13,11 @@
                 hide-details="auto"
                 ></v-text-field>
                 <v-btn
+                @click = "updateUser"
                 type="submit"
                 class="text-center mb-15"
                 depressed
                 color="lime">Modifier</v-btn>
-            </v-form>
-            <v-form class="pl-3 pr-3 formInfo">
                 <h4>Modifier le mot de passe</h4>
                 <v-text-field class="mb-5"
                 label="Mot de passe"
@@ -27,6 +26,7 @@
                 hide-details="auto"
                 ></v-text-field>
                 <v-btn
+                @click = "updateUser"
                 type="submit"
                 class="text-center mb-3"
                 depressed
@@ -56,7 +56,8 @@ export default {
     },
     data: function() {
         return {
-            id: "", 
+            id: "",
+            password: "", 
             token: "", 
             username:"",
         }
@@ -70,23 +71,44 @@ export default {
         } else this.$router.push({ name: 'login' })
     },
     methods: {
-        deleteUser(){
+        updateUser() {
             const user = JSON.parse(localStorage.getItem('user'))
+            const userId = user.id
+            const newEmail = document.querySelector('#email').value
+            const newPassword = document.querySelector('#password').value
             axios
-                .delete("http://localhost:3000/api/auth/user/" + user.id,
+                .put("http://localhost:3000/api/auth/users/" + userId,
+                    {email : newEmail, password: newPassword},
                     {headers: {"Content-Type": "application/json"},
                     Authorization: "Bearer " + user.token})
                 .then((res) => {
-                    console.log(res)
-                    localStorage.clear()
-                    this.$router.push( '/' ) 
+                    alert("Votre compte a été modifié")
+                    localStorage.setItem("user", JSON.stringify(res.data))
+                    this.$router.push( '/' )})
                 .catch((error) => {
                     console.log(error)
-                    alert("Impossible de supprimer le compte") 
-                })})
+                    alert("Impossible de modifier les informations du compte !")
+                })
+        },
+        deleteUser() {
+            const user = JSON.parse(localStorage.getItem('user'))
+            const userId = user.id
+            axios
+                .delete("http://localhost:3000/api/auth/users/" + userId,
+                    {headers: {"Content-Type": "application/json"},
+                    Authorization: "Bearer " + user.token})
+                .then(() => {
+                    alert("Votre compte a été supprimé")
+                    localStorage.clear()
+                    this.$router.push( '/' )})
+                .catch((error) => {
+                    console.log(error)
+                    alert("Impossible de supprimer le compte")
+                })
         }
     }
 }
+
 </script>
 
 <style>
