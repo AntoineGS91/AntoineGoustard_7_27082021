@@ -1,17 +1,76 @@
 <template>
     <div>
+        <NavCo />
+        <h1 class="mt-15 mb-15 text-center">Bonjour à vous, {{ username }}</h1>
+        <div v-for="(post, pt) in posts"
+            :key="pt"
+            v-bind:post="post">
+            <div class="Post rounded-lg mb-15">
+                <h3 class="mb-5 text-center"></h3>
+                <div class="post__content d-flex flex-column-reverse">
+                    <div class="post__user">Rédigé par ... à </div>
+                    <p class="post__text mb-3"></p>
+                </div>
+            </div>
+        </div>
+        
     </div>
 </template>
 
 <script>
+import axios from "axios"
+import NavCo from "../components/NavCo.vue"
 
 export default {
     name : "Feed",
-    components: {
-	}
+    components: { 
+        NavCo,
+    },
+    data: function() {
+        return {
+            posts: [],
+            id: "", 
+            token: "", 
+            username:"",
+        }
+    },
+    mounted() {
+        const user = JSON.parse(localStorage.getItem('user'))
+        if (user) {
+            this.id = user.id
+            this.username = user.username
+            this.token = user.token
+        } else this.$router.push({ name: 'login' })
+    },
+    methods: {
+        showFeed() {
+            const user = JSON.parse(localStorage.getItem('user')) 
+            axios
+                .get("http://localhost:3000/api/post", {
+                    Authorization: "Bearer" + user.token})
+                .then(res => res.json())
+                .then(result => {this.posts = result})
+                .catch((error) => {
+                    console.log(error)
+                    alert("Utilisateur non trouvé, veuillez vérifier vos identifiants") 
+                })
+        }
+    }
 }
 </script>
 
 <style>
+    .Post{
+        border: blue solid 3px;
+        width: 90%;
+        margin-left: 5%;
 
+    }
+    .post__text{
+        height: 100%;
+    }
+    .post__user{
+        height: 100%;
+        margin: 0;
+    }
 </style>

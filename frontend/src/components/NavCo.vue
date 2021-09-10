@@ -7,7 +7,7 @@
                 <router-link class="my-auto Navtext" to="/feed">
                     <v-tab>Voir les posts</v-tab>
                 </router-link>
-                <router-link class="my-auto Navtext" to="/newPost">
+                <router-link class="my-auto Navtext" to="/addpost">
                     <v-tab>Créer un post</v-tab>
                 </router-link>
                 <router-link class="my-auto Navtext" to="/profil">

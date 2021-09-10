@@ -12,7 +12,7 @@ exports.signup = (req, res, next) => {
           isAdmin: 0,
           password: hash
         });
-        db.query('INSERT INTO user SET ?', user, (error, result, field) => {
+        db.query('INSERT INTO users SET ?', user, (error, result, field) => {
             if (error) {
                 console.error(error);
                 return res.status(400).json({ error })
@@ -25,7 +25,7 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
     const email = req.body.email
-    db.query("SELECT * FROM user WHERE email= '" + req.body.email + "'", req.body.email, (error, result, fields) => {
+    db.query("SELECT * FROM users WHERE email= '" + req.body.email + "'", req.body.email, (error, result, fields) => {
         if (error) throw error
         else {
             if (result.length > 0){
@@ -49,14 +49,14 @@ exports.login = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
     let userId = req.params.id;
-    conn.query(`DELETE FROM user WHERE id = ?`, userId, (error, result) => {
+    conn.query(`DELETE FROM users WHERE id = ?`, userId, (error, result) => {
         if (error) return res.status(400).json({ error: "Vous ne pouvez pas supprimer cet utilisateur" });
         else{ res.status(200).json({ message: "L'utilisateur a bien été supprimé" })}
     });
 }
 
 exports.getAllUser = (req, res, next) => {
-    db.query('SELECT id, username, email FROM user ', (error, result) => {
+    db.query('SELECT id, username, email FROM users ', (error, result) => {
     if (error) {
         return res
             .status(400)
@@ -67,7 +67,7 @@ exports.getAllUser = (req, res, next) => {
 }
 
 exports.getOneUser = (req, res, next) => {
-    db.query('SELECT * FROM user WHERE id =?', req.params.id, (error, result) => {
+    db.query('SELECT * FROM users WHERE id =?', req.params.id, (error, result) => {
         if (err) throw err;
         else {
             return res.status(200).json(result);
@@ -86,7 +86,7 @@ exports.modifyUser = (req, res, next) => {
             .then((hash) => {
                 password = hash;
                 db.query(
-                    `UPDATE user SET email='${email}', password='${password}', imageUrl='${imageUrl}', isAdmin=${0}  WHERE id=?`, id, (error, results, fields) => {
+                    `UPDATE users SET email='${email}', password='${password}', isAdmin=${0}  WHERE id=?`, id, (error, results, fields) => {
                         if (error) {
                             return res.status(400).json(error);
                         }

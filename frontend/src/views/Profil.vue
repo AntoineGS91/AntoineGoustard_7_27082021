@@ -75,7 +75,7 @@ export default {
             axios
                 .delete("http://localhost:3000/api/auth/user/" + user.id,
                     {headers: {"Content-Type": "application/json"},
-                    Authorization: "Bearer" + user.token})
+                    Authorization: "Bearer " + user.token})
                 .then((res) => {
                     console.log(res)
                     localStorage.clear()
