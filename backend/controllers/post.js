@@ -2,24 +2,10 @@ const Post = require('../models/post');
 const db = require('../db.js');
 
 exports.getAllPosts = (req, res, next) => {
-  db.query('SELECT post.id, title, content, userId, dateCreate, isAdmin, FROM posts INNER JOIN users ON users.id = posts.userId ORDER BY dateCreate DESC', (error, result) => {
-      if (error) {return res.status(400).json({ error: "Affichage des posts impossible" });}
-      else { 
-          if(result.length > 0) {
-            const Posts = [];
-            for (let i = 0; i < result.length; i++) {
-            Posts.push({
-              userId: result[i].userId,
-              title: result[i].title,
-              content: result[i].content,
-              id: result[i].id,
-              dateCreate: result[i].dateCreate
-            })
-            }
-            res.status(200).json(Posts);
-          }
-          else {res.status(200).json([]);}
-      }
+  db.query('SELECT posts.id, posts.title, posts.content, posts.userId, posts.dateCreate FROM posts INNER JOIN users ON users.id = posts.userId ORDER BY dateCreate DESC', (error, result) => {
+    if (error) throw error;
+    else {
+return res.status(200).json(result)}
   })
 }
   

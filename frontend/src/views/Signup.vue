@@ -1,17 +1,17 @@
 <template>
     <div>
-        <v-app-bar id="Navbar" class="blue">
-        <img class="rounded-circle ml-5 mr-10" width="50" alt="Logo Groupomania" src="../assets/icon.svg">
-        <p id="titlenavbar" class="my-auto">Groupomania</p>
-        <v-tabs class="d-flex justify-end mr-15">
-            <router-link class="my-auto Navtext" to="/login">
-                <v-tab>Connexion</v-tab>
-            </router-link>
-            <router-link class="my-auto Navtext" to="/signup">
-                <v-tab>Inscription</v-tab>
-            </router-link>
-        </v-tabs>
-        </v-app-bar>
+        <v-toolbar id="Navbar" class="blue d-inline-flex flex-sm-column">
+            <img class="rounded-circle ml-5 mr-10" width="50" alt="Logo Groupomania" src="../assets/icon.svg">
+            <p id="titlenavbar" class="my-auto">Groupomania</p>
+            <v-tabs class="d-flex justify-end mr-15">
+                <router-link class="my-auto Navtext" to="/login">
+                    <v-tab>Connexion</v-tab>
+                </router-link>
+                <router-link class="my-auto Navtext" to="/signup">
+                    <v-tab>Inscription</v-tab>
+                </router-link>
+            </v-tabs>
+        </v-toolbar>
         <div>
             <div class="mt-15 text-center mb-10">
                 <h2 class="mb-5">Inscription</h2>
@@ -72,6 +72,8 @@ export default {
         email: '',
         password: '',
         username: '',
+        drawer: false,
+        group: null,
     }
   },
   methods: {
@@ -99,6 +101,10 @@ export default {
 </script>   
 
 <style>
+    #Navbar{
+        width: 100%;
+        height: 500px;
+    }
     #titlenavbar{
         color: white;
         font-size: 1.5em;
@@ -122,5 +128,10 @@ export default {
         #container{
             width: 50%;
         }
+    }
+     @media all and (max-width: 600px) {
+         #Navbar{
+             flex-direction: column;
+         }
     }
 </style>
