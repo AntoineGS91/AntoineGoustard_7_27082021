@@ -2,7 +2,8 @@
     <div>
         <NavCo />
         <h1 class="mt-10 text-center">Mon compte</h1>
-        <h2 class="mt-10 mb-10 text-center">{{ username }}</h2>
+        <h2 class="mt-10 mb-15 text-center">{{ username }}</h2>
+        <h2 class="mt-10 mb-15 text-center">{{ email }}</h2>
         <div class="mb-15 rounded-lg" id="formUpdater">
             <v-form class="formInfo pl-3 pr-3 mt-5">
                 <h4>Modifier l'adresse Email</h4>
@@ -60,12 +61,15 @@ export default {
             password: "", 
             token: "", 
             username:"",
+            email: "",
         }
     },
     mounted() {
         const user = JSON.parse(localStorage.getItem('user'))
         if (user) {
             this.id = user.id
+            this.email = user.email
+            this.imageUrl = user.imageUrl
             this.username = user.username
             this.token = user.token
         } else this.$router.push({ name: 'login' })
