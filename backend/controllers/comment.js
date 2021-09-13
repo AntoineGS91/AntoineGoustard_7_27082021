@@ -26,11 +26,11 @@ exports.deleteComment = (req, res, next) => {
 }
 
 exports.getAllComments = (req, res, next) => {
-    db.query(`SELECT comments.id, comments.content, comments.dateCreate, comments.userId, 
-            comments.postId, users.username FROM comments INNER JOIN posts ON posts.id = comments.postId 
-            LEFT JOIN users ON users.id = comments.userId WHERE posts.id= ? ORDER BY dateCreate DESC`, 
-            req.params.id, (error, result) => {
-        if (error) return res.status(400).json({ error: "Impossible d'afficher les commentaires !" })
+    const params = new Array()
+    params.push(parseInt(req.params.id))
+    db.query(`SELECT * FROM comments WHERE postId = ? ORDER BY dateCreate DESC`, 
+            params, (error, result) => {
+        if (error) return res.status(400).json({ error })
         else {return res.status(200).json(result)}
     })
 }

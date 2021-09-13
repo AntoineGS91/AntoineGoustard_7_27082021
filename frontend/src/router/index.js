@@ -7,6 +7,7 @@ import Signup from '../views/Signup.vue'
 import Feed from '../views/Feed.vue'
 import Profil from '../views/Profil.vue'
 import NewPost from '../views/NewPost.vue'
+import updatePost from '../views/updatePost.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ const routes = [
     path: '/profil',
     name: 'profil',
     component: Profil
+  },
+  {
+    path: '/updatePost',
+    name: 'updatePost',
+    component: updatePost
   }
 ]
 

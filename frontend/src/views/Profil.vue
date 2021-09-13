@@ -4,7 +4,7 @@
         <h1 class="mt-10 text-center">Mon compte</h1>
         <h2 class="mt-10 mb-15 text-center">{{ username }}</h2>
         <h2 class="mt-10 mb-15 text-center">{{ email }}</h2>
-        <div class="mb-15 rounded-lg" id="formUpdater">
+        <!-- <div class="mb-15 rounded-lg" id="formUpdater">
             <v-form class="formInfo pl-3 pr-3 mt-5">
                 <h4>Modifier l'adresse Email</h4>
                 <v-text-field
@@ -33,7 +33,7 @@
                 depressed
                 color="lime">Modifier</v-btn>
             </v-form>
-        </div>
+        </div> -->
         <div id="deleteUser">
             <v-btn 
                 @click = "deleteUser"

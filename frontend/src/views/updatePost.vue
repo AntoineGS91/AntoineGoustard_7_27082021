@@ -3,7 +3,7 @@
         <NavCo />
         <h1 class="mt-15 mb-15 text-center">Bonjour à vous, {{ username }}</h1>
         <div class="mt-15">
-            <v-form method="POST" @submit.prevent ="publish" id="container" class="mx-auto pl-3 pr-3 rounded-lg">
+            <v-form method="PUT" @submit.prevent ="publishComment" id="container" class="mx-auto pl-3 pr-3 rounded-lg">
                 <v-text-field
                     class="mb-10 mt-5"
                     label="Titre"
@@ -25,7 +25,7 @@
                     class="text-center mb-3"
                     depressed
                     color="lime">
-                    Publier</v-btn>
+                    Modifier le post</v-btn>
             </v-form>
         </div>
     </div>
@@ -55,24 +55,24 @@ export default {
         } else this.$router.push({ name: 'login' })
     },
     methods: {
-        publish() {
-        const user = JSON.parse(localStorage.getItem('user')) 
-        const postTitle = document.querySelector("#post_title").value
-        const postContent = document.querySelector("#post_content").value
-        const post = JSON.stringify({'content': postContent, 'title' : postTitle, 'userId': user.id})
+        publishComment() {
+            const user = JSON.parse(localStorage.getItem('user')) 
+            const postTitle = document.querySelector("#post_title").value
+            const postContent = document.querySelector("#post_content").value
+            const post = JSON.stringify({'content': postContent, 'title' : postTitle, 'userId': user.id})
         axios
-            .post("http://localhost:3000/api/post", post,
+            .put("http://localhost:3000/api/post/" + post.id, post,
                 {headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + user.token}})
-            .then(() => {
+                .then(() => {
                 this.$router.push( '/feed' )})
             .catch((error) => {
                 console.log(error)
             })
-        }       
-    }  
-}
+            }
+    }
+}       
 </script>
 
 <style>
