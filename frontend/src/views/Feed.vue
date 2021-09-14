@@ -13,18 +13,18 @@
                 </div>
                 <div id="btnOptions" class="float-right d-flex flex-column mt-n16">
                     <div v-if=" post.userId === id || isAdmin === 1" class="">
-                        <v-btn @click = "updatePost" color=lime class="mb-5 mt-n7"><i class="fas fa-pen-alt"></i></v-btn>
-                        <v-btn @click = "deletePost" color=red><i class="fas fa-trash"></i></v-btn>
+                        <v-btn @click = "updatePost(post.id)" color=lime class="mb-5 mt-n7"><i class="fas fa-pen-alt"></i></v-btn>
+                        <v-btn @click = "deletePost(post.id)" color=red><i class="fas fa-trash"></i></v-btn>
                     </div>
                     <v-btn id="#commentBtn" color=blue><i class="fas fa-comment"></i></v-btn>
                 </div>
             </div>
             <div id="commentaries" class="mb-15">
-                <div v-for="comment in comments" 
+                <div v-for="comment in post.comments" 
                     v-bind:key="comment.id">
-                    <div class="post__content d-flex flex-column-reverse">
-                        <div class="post__user">Rédigé par  le {{ comment.dateCreate }}</div>
-                        <p class="post__text mb-3">{{ comment.content }}</p>
+                    <div class="comment__content d-flex flex-column-reverse">
+                        <div class="comment__user">Rédigé le {{ comment.dateCreate }}</div>
+                        <p class="comment__text mb-3">{{ comment.content }}</p>
                     </div>
                 </div>
             </div>
@@ -74,23 +74,20 @@ export default {
                             "Content-Type": "application/json",
                             Authorization: "Bearer " + user.token}})
                         .then((response) => { 
-                            this.posts[index] = response.data},)
+                            this.posts[index].comments = response.data},)
                         .catch((err) => { console.log(err) })
                 })})
             .catch((err) => { console.log(err) })
     },
     methods:{  
         updatePost() {
-            const postId = this.posts.id
-            console.log(postId);
-            localStorage.setItem("post", JSON.stringify(this.post.id))
+            localStorage.setItem("postSelected", JSON.stringify(this.post.id))
             this.$router.push( '/updatePost' )
         },
         deletePost() {
             const user = JSON.parse(localStorage.getItem('user'))
-            const postId = this.posts.id
             axios
-                .delete("http://localhost:3000/api/post/" + postId,
+                .delete("http://localhost:3000/api/post/" + this.post.id,
                     {headers: {"Content-Type": "application/json"},
                     Authorization: "Bearer " + user.token})
                 .then(() => {
