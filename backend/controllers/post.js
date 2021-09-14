@@ -1,6 +1,9 @@
+//Import model post
 const Post = require('../models/post');
+//Import base de données
 const db = require('../db.js');
 
+//Récupération de tous les commentaires
 exports.getAllPosts = (req, res, next) => {
   db.query('SELECT * FROM posts LEFT JOIN users ON users.id = posts.userId ORDER BY dateCreate DESC', (error, result) => {
     if (error) throw error;
@@ -8,7 +11,8 @@ exports.getAllPosts = (req, res, next) => {
 return res.status(200).json(result)}
   })
 }
-  
+
+//Récupération d'un post
 exports.getOnePost = (req, res, next) => {
   db.query('SELECT post.id, title, content, userId, dateCreate, isAdmin, FROM posts INNER JOIN user ON user.id = post.userId WHERE post.id=? ', req.params.id, (error, result) => {
       if (error) {return res.status(400).json({ error: "Affichage du post impossible" });}
@@ -16,6 +20,7 @@ exports.getOnePost = (req, res, next) => {
   });
 }
 
+//Suppression d'un post
 exports.deletePost = (req, res, next) => {
   db.query(`SELECT * FROM posts WHERE id=?`, req.params.id, (error, rows, fields) => {
       if (error) {
@@ -30,6 +35,7 @@ exports.deletePost = (req, res, next) => {
   )
 }
 
+//Création d'un post
 exports.addPost = (req, res, next) => {
   const title = req.body.title;
   const content = req.body.content;
@@ -49,6 +55,7 @@ exports.addPost = (req, res, next) => {
   }
 }
 
+//Modification d'un post
 exports.updatePost = (req, res, next) => {
   db.query(`SELECT * FROM posts WHERE id=?`, req.params.id, (error, rows, fields) => {
       if (error) {return res.status(500).json({ error });

@@ -1,8 +1,13 @@
+//Import base de données
 const db = require('../db.js');
+//Import model User 
 const User = require("../models/User");
+//Import JWT (token)
 const jwt =  require('jsonwebtoken')
+//Import Bcrypt
 const bcrypt = require('bcrypt');
 
+//Création compte user
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
@@ -23,6 +28,7 @@ exports.signup = (req, res, next) => {
     })
 }
 
+//Création enregistrement user
 exports.login = (req, res, next) => {
     const email = req.body.email
     db.query("SELECT * FROM users WHERE email= '" + req.body.email + "'", req.body.email, (error, result, fields) => {
@@ -47,6 +53,7 @@ exports.login = (req, res, next) => {
         }})
 }
 
+//Suppression user
 exports.deleteUser = (req, res, next) => {
     let userId = req.params.id;
     db.query(`DELETE FROM users WHERE id = `+ userId, userId, (error, result) => {
@@ -55,6 +62,7 @@ exports.deleteUser = (req, res, next) => {
     })
 }
 
+//Récupération un seul user
 exports.getOneUser = (req, res, next) => {
     db.query('SELECT * FROM users WHERE id =?', req.params.id, (error, result) => {
         if (err) throw err;
@@ -64,6 +72,7 @@ exports.getOneUser = (req, res, next) => {
     })
 }
 
+//Modification user
 exports.modifyUser = (req, res, next) => {
     const email = req.body.email;
     const id = req.params.id;

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+//Vérification authentification
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
@@ -10,7 +11,7 @@ module.exports = (req, res, next) => {
     } else {
       next();
     }
-  } catch {
+  } catch { // Si problème d'authentification
     res.status(401).json({
       error: new Error('requete invalide!')
     });

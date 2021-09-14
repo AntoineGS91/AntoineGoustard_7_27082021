@@ -1,6 +1,9 @@
+//Import model comment
 const Comment = require('../models/comment');
+//Import base de données
 const db = require('../db.js');
 
+//Création de commentaire
 exports.addComment = (req, res, next) => {
     const content = req.body.content;
     const comment = new Comment({
@@ -17,6 +20,7 @@ exports.addComment = (req, res, next) => {
     }
 }
 
+//Suppression commentaire
 exports.deleteComment = (req, res, next) => {
     let commentId = req.params.id;
     db.query(`DELETE FROM comment WHERE id = ?`, commentId, (error, result) => {
@@ -25,6 +29,7 @@ exports.deleteComment = (req, res, next) => {
     })
 }
 
+//Récupération de tous les commentaires
 exports.getAllComments = (req, res, next) => {
     const params = new Array()
     params.push(parseInt(req.params.id))
@@ -35,8 +40,9 @@ exports.getAllComments = (req, res, next) => {
     })
 }
 
+//Récupération d'un seul commentaire
 exports.getOneComment = (req, res, next) => {
-    db.query('SELECT comment.id, comment.content, userId, isAdmin FROM comment INNER JOIN user ON user.id = comment.userId WHERE comment.id=? ', req.params.id, (error, result) => {
+    db.query('SELECT comments.id, comments.content, userId, isAdmin FROM comments INNER JOIN users ON users.id = comments.userId WHERE comments.id=? ', req.params.id, (error, result) => {
         if (error) {return res.status(400).json({ error: "Impossible d'afficher le commentaire" })}
         else {return res.status(200).json(result)}
     })
