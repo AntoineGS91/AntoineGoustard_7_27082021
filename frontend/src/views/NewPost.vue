@@ -56,18 +56,18 @@ export default {
     },
     methods: {
         publish() {
-        const user = JSON.parse(localStorage.getItem('user')) 
+        const user = JSON.parse(localStorage.getItem('user'))  //Gestion des informations saisies par l'utilisateur
         const postTitle = document.querySelector("#post_title").value
         const postContent = document.querySelector("#post_content").value
         const post = JSON.stringify({'content': postContent, 'title' : postTitle, 'userId': user.id})
         axios
-            .post("http://localhost:3000/api/post", post,
+            .post("http://localhost:3000/api/post", post, //Envoi de la réquete de publication vers l'API
                 {headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + user.token}})
             .then(() => {
-                this.$router.push( '/feed' )})
-            .catch((error) => {
+                this.$router.push( '/feed' )}) //Redirection vers le fil d'actualité
+            .catch((error) => { //Affichage de l'erreur
                 console.log(error)
             })
         }       

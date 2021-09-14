@@ -60,27 +60,27 @@ export default {
     created() {
         const user = JSON.parse(localStorage.getItem('user'))
         axios
-            .get("http://localhost:3000/api/post",
+            .get("http://localhost:3000/api/post", //Envoi requete de récupération des posts
                 {headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + user.token}})
             .then((response) => { 
-                let posts = response.data
+                let posts = response.data //Récupération de la réponse à la requete
                 this.posts = posts
                 this.posts.forEach((post, index) => {
                     axios
-                        .get("http://localhost:3000/api/comment/" + post.id,
+                        .get("http://localhost:3000/api/comment/" + post.id, //Envoi requete de récupération des commentaires
                             {headers: {
                             "Content-Type": "application/json",
                             Authorization: "Bearer " + user.token}})
-                        .then((response) => { 
+                        .then((response) => { //Récupération de la réponse à la requete
                             this.posts[index].comments = response.data},)
-                        .catch((err) => { console.log(err) })
+                        .catch((err) => { console.log(err) }) //Affichage de l'erreur
                 })})
-            .catch((err) => { console.log(err) })
+            .catch((err) => { console.log(err) })  //Affichage de l'erreur
     },
     methods:{  
-        updatePost() {
+        updatePost() { //Fonctionnalité encore non déployée
             localStorage.setItem("postSelected", JSON.stringify(this.post.id))
             this.$router.push( '/updatePost' )
         },

@@ -25,7 +25,7 @@
 export default {
     name: 'NavCo',
     methods: {
-        exit() {
+        exit() { //Fonctionnalité de deconnexion de l'utilisateur
             localStorage.clear()
             this.$router.push({ name: 'Home' }) 
         }

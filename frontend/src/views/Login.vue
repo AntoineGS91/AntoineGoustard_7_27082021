@@ -61,18 +61,18 @@ export default {
     }
   },
   methods: {
-    login() {
+    login() { //Récupération des infos saisies par l'utilisateur
     const userEmail = document.querySelector("#email").value
     const userPassword = document.querySelector("#password").value
       axios
-        .post("http://localhost:3000/api/auth/login",
+        .post("http://localhost:3000/api/auth/login", // Envoi des information vers l'API
             {email : userEmail, password: userPassword},
             {headers: {"Content-Type": "application/json"}}
         )
-        .then((res) => {
+        .then((res) => { //Ajout des info de l'utilisateur dans le localStorage puis redirection vers le profil
             localStorage.setItem("user", JSON.stringify(res.data))
             this.$router.push("/Profil")})
-        .catch((error) => {
+        .catch((error) => { //Affichage de l'erreur
             console.log(error)
             alert("Utilisateur non trouvé, veuillez vérifier vos identifiants") 
         })

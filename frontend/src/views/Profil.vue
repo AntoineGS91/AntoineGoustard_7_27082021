@@ -64,7 +64,7 @@ export default {
             email: "",
         }
     },
-    mounted() {
+    mounted() { //Gestion des données de l'utilisateur sur la page
         const user = JSON.parse(localStorage.getItem('user'))
         if (user) {
             this.id = user.id
@@ -75,7 +75,7 @@ export default {
         } else this.$router.push({ name: 'login' })
     },
     methods: {
-        updateUser() {
+        updateUser() { //Fonctionnalité encore non deployée
             const user = JSON.parse(localStorage.getItem('user'))
             const userId = user.id
             const newEmail = document.querySelector('#email').value
@@ -94,18 +94,18 @@ export default {
                     alert("Impossible de modifier les informations du compte !")
                 })
         },
-        deleteUser() {
+        deleteUser() { //Suppression du compte utilisateur
             const user = JSON.parse(localStorage.getItem('user'))
             const userId = user.id
             axios
-                .delete("http://localhost:3000/api/auth/users/" + userId,
+                .delete("http://localhost:3000/api/auth/users/" + userId, //Envoi de la requete de suppression
                     {headers: {"Content-Type": "application/json"},
                     Authorization: "Bearer " + user.token})
                 .then(() => {
-                    alert("Votre compte a été supprimé")
+                    alert("Votre compte a été supprimé") //Suppression du local storage + Redirection
                     localStorage.clear()
                     this.$router.push( '/' )})
-                .catch((error) => {
+                .catch((error) => { //Affichage erreur
                     console.log(error)
                     alert("Impossible de supprimer le compte")
                 })

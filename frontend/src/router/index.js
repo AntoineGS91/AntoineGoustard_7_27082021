@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+//Import des views du site
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
@@ -12,6 +13,7 @@ import NewComment from '../views/NewComment.vue'
 
 Vue.use(VueRouter)
 
+//Application des différentes pages
 const routes = [
   {
     path: '/',

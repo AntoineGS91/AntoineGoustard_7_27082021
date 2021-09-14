@@ -77,20 +77,19 @@ export default {
     }
   },
   methods: {
-    signup() {
+    signup() { //Récupération des infos saisies par l'utilisateur
     const userEmail = document.querySelector("#email").value
     const userPassword = document.querySelector("#password").value
     const userUsername = document.querySelector("#username").value
       axios
-        .post("http://localhost:3000/api/auth/signup",
+        .post("http://localhost:3000/api/auth/signup", // Envoi des information vers l'API
             {email : userEmail, username: userUsername, password: userPassword},
             {headers: {"Content-Type": "application/json"}}
         )
-        .then((res) => {
+        .then(() => { //Redirection vers la page de connexion
             console.log("Inscription réussi !");
-            localStorage.setItem("User", res)
             this.$router.push("/login")})
-        .catch((error) => {
+        .catch((error) => { //Affichage de l'erreur
             console.log(error)
             alert("Echec de l'inscription") 
         })
