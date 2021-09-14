@@ -7,16 +7,16 @@
                 <h3 class="mb-5 text-center"> {{ post.title }}</h3>
                 <div class="post__content d-flex flex-column-reverse">
                     <div class="d-inline-flex my-auto">
-                        <div class="post__user mr-5">Rédigé le {{ post.dateCreate }}</div>
-                        <div class="ml-15 mr-15">par XXX</div>
-                        <v-btn class="pt-n5 text-center blue">Commenter</v-btn>
+                        <div class="post__user mr-5">{{ post.dateCreate }}</div>
                     </div>
                     <p class="post__text mb-3">{{ post.content }}</p>
                 </div>
-                
-                <div v-if=" post.userId === id || isAdmin === true" class="float-right d-flex flex-column mt-n16">
-                    <v-btn @click = "updatePost" color=lime class="mb-5 mt-n7">Modifier</v-btn>
-                    <v-btn @click = "deletePost" color=red>Supprimer</v-btn>
+                <div id="btnOptions" class="float-right d-flex flex-column mt-n16">
+                    <div v-if=" post.userId === id || isAdmin === 1" class="">
+                        <v-btn @click = "updatePost" color=lime class="mb-5 mt-n7"><i class="fas fa-pen-alt"></i></v-btn>
+                        <v-btn @click = "deletePost" color=red><i class="fas fa-trash"></i></v-btn>
+                    </div>
+                    <v-btn id="#commentBtn" color=blue><i class="fas fa-comment"></i></v-btn>
                 </div>
             </div>
             <div id="commentaries" class="mb-15">
@@ -81,10 +81,9 @@ export default {
     },
     methods:{  
         updatePost() {
-            const post = this.posts
-            const postId = post.id
-            console.log(post.id);
-            localStorage.setItem("post", JSON.stringify(postId))
+            const postId = this.posts.id
+            console.log(postId);
+            localStorage.setItem("post", JSON.stringify(this.post.id))
             this.$router.push( '/updatePost' )
         },
         deletePost() {
@@ -108,9 +107,13 @@ export default {
 </script>
 
 <style>
+    #btnOptions{
+        width: 20px;
+        margin-right: -3%;
+    }
     .Post{
         border: blue solid 3px;
-        width: 90%;
+        width: 85%;
         margin-left: 5%;
 
     }
@@ -131,4 +134,10 @@ export default {
         margin-left: 10%;
         height:50px
     }
+    @media all and (min-width: 780px) {
+        #container{
+            width: 50%;
+        }
+    }
+
 </style>

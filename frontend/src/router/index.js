@@ -8,6 +8,7 @@ import Feed from '../views/Feed.vue'
 import Profil from '../views/Profil.vue'
 import NewPost from '../views/NewPost.vue'
 import updatePost from '../views/updatePost.vue'
+import NewComment from '../views/NewComment.vue'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,11 @@ const routes = [
     path: '/updatePost',
     name: 'updatePost',
     component: updatePost
+  },
+  {
+    path: '/newcomment',
+    name: 'newcomment',
+    component: NewComment
   }
 ]
 

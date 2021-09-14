@@ -65,12 +65,12 @@ export default {
                 {headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + user.token}})
-                .then(() => {
+            .then(() => {
                 this.$router.push( '/feed' )})
             .catch((error) => {
                 console.log(error)
             })
-            }
+        },
     }
 }       
 </script>

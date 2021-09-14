@@ -129,9 +129,4 @@ export default {
             width: 50%;
         }
     }
-     @media all and (max-width: 600px) {
-         #Navbar{
-             flex-direction: column;
-         }
-    }
 </style>
