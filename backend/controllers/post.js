@@ -5,16 +5,15 @@ const db = require('../db.js');
 
 //Récupération de tous les commentaires
 exports.getAllPosts = (req, res, next) => {
-  db.query('SELECT * FROM posts LEFT JOIN users ON users.id = posts.userId ORDER BY dateCreate DESC', (error, result) => {
+  db.query('SELECT posts.id, posts.content, posts.title, posts.dateCreate, userId, username FROM posts LEFT JOIN users ON users.id = posts.userId ORDER BY dateCreate DESC', (error, result) => {
     if (error) throw error;
-    else {
-return res.status(200).json(result)}
+    else { return res.status(200).json(result)}
   })
 }
 
 //Récupération d'un post
 exports.getOnePost = (req, res, next) => {
-  db.query('SELECT post.id, title, content, userId, dateCreate, isAdmin, FROM posts INNER JOIN user ON user.id = post.userId WHERE post.id=? ', req.params.id, (error, result) => {
+  db.query('SELECT post.id, title, content, userId, dateCreate, isAdmin, FROM posts INNER JOIN users ON users.id = posts.userId WHERE post.id=? ', req.params.id, (error, result) => {
       if (error) {return res.status(400).json({ error: "Affichage du post impossible" });}
       return res.status(200).json(result);
   });

@@ -12,7 +12,7 @@ router.get('/', auth, postCtrl.getAllPosts);
 //Route Récupération d'un post
 router.get('/:id', auth, postCtrl.getOnePost);
 //Route Suppression de post
-router.delete('/:id', auth, postCtrl.deletePost);
+router.delete('/:id', postCtrl.deletePost);
 //Route Ajout de post
 router.post('/', auth, postCtrl.addPost);
 //Route Modification de pot

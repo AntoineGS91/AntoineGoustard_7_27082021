@@ -2,18 +2,19 @@
     <div>
         <NavCo />
         <div class="mt-15" v-for="post in posts" 
-            v-bind:key="post.id">
+            :key="post.id">
             <div class="Post rounded-lg">
-                <h3 class="mb-5 text-center"> {{ post.title }}</h3>
+                <h3 class="mb-5 text-center">{{ post.title }} // {{post.userId}} // {{ post.id      }}
+                </h3>
                 <div class="post__content d-flex flex-column-reverse">
                     <div class="d-inline-flex my-auto">
                         <div class="post__user mr-5">{{ post.dateCreate }}</div>
                     </div>
-                    <p class="post__text mb-3">{{ post.content }}</p>
+                    <p class="post__text d-flex mb-3">{{ post.content }}</p>
                 </div>
                 <div id="btnOptions" class="float-right d-flex flex-column mt-n16">
-                    <div v-if=" post.userId === id || isAdmin === 1" class="">
-                        <v-btn @click = "updatePost(post.id)" color=lime class="mb-5 mt-n7"><i class="fas fa-pen-alt"></i></v-btn>
+                    <div v-if=" post.userId === id || isAdmin === 1">
+                        <v-btn @click = "updatePost(id)" color=lime class="mb-5 mt-n7"><i class="fas fa-pen-alt"></i></v-btn>
                         <v-btn @click = "deletePost(post.id)" color=red><i class="fas fa-trash"></i></v-btn>
                     </div>
                     <v-btn id="#commentBtn" color=blue><i class="fas fa-comment"></i></v-btn>
@@ -79,31 +80,32 @@ export default {
                 })})
             .catch((err) => { console.log(err) })  //Affichage de l'erreur
     },
-    methods:{  
+    methods:{ 
         updatePost() { //Fonctionnalité encore non déployée
-            localStorage.setItem("postSelected", JSON.stringify(this.post.id))
             this.$router.push( '/updatePost' )
         },
-        deletePost() {
+        deletePost(post) { //Suppression d'un post par le bouton
             const user = JSON.parse(localStorage.getItem('user'))
             axios
-                .delete("http://localhost:3000/api/post/" + this.post.id,
-                    {headers: {"Content-Type": "application/json"},
-                    Authorization: "Bearer " + user.token})
+                .delete("http://localhost:3000/api/post/" + post,
+                    {headers: {
+                            "Content-Type": "application/json",
+                            Authorization: "Bearer " + user.token}})
                 .then(() => {
                     alert("Le post a été supprimé")
-                    this.$router.push( '/' )})
+                    location.reload()
+                    })
                 .catch((error) => {
                     console.log(error)
                     alert("Impossible de supprimer le post")
                 })
-        }
+        }        
     }
-}
-   
+} 
 </script>
 
 <style>
+
     #btnOptions{
         width: 20px;
         margin-right: -3%;
